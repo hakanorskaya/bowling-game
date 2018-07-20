@@ -2,7 +2,7 @@
 {
     public class Game
     {
-        private readonly int[] _rolls = new int[21]; // Since when last frame is spare or strike max possible roll count is 21
+        private readonly int[] _rolls = new int[21]; // Maximum possible roll count is 21
         private int _currentRollIndex;
 
         public int Score
@@ -11,21 +11,22 @@
             {
                 var totalScore = 0;
                 var rollIndex = 0;
-                for (int frame = 0; frame <= 9; frame++) // 10 frames
+
+                for (var frame = 0; frame <= 9; frame++) // 10 frames
                 {
-                    if (_rolls[rollIndex] == 10) // if strike
+                    if (IsStrike(rollIndex))
                     {
-                        totalScore += _rolls[rollIndex] + _rolls[rollIndex + 1] + _rolls[rollIndex + 2];
+                        totalScore += GetStrikePoints(rollIndex);
                         rollIndex++;
                     }
-                    else if (_rolls[rollIndex] + _rolls[rollIndex + 1] == 10) // if spare
+                    else if (IsSpare(rollIndex))
                     {
-                        totalScore += _rolls[rollIndex] + _rolls[rollIndex + 1] + _rolls[rollIndex + 2];
+                        totalScore += GetSparePoints(rollIndex);
                         rollIndex += 2;
                     }
                     else
                     {
-                        totalScore += _rolls[rollIndex] + _rolls[rollIndex + 1];
+                        totalScore += GetPoints(rollIndex);
                         rollIndex += 2;
                     }
                 }
@@ -36,8 +37,32 @@
 
         public void Roll(int pins)
         {
-            _rolls[_currentRollIndex] = pins;
-            _currentRollIndex++;
+            _rolls[_currentRollIndex++] = pins;
+        }
+
+        private bool IsStrike(int rollIndex)
+        {
+            return _rolls[rollIndex] == 10;
+        }
+
+        private bool IsSpare(int rollIndex)
+        {
+            return _rolls[rollIndex] + _rolls[rollIndex + 1] == 10;
+        }
+
+        private int GetStrikePoints(int rollIndex)
+        {
+            return _rolls[rollIndex] + _rolls[rollIndex + 1] + _rolls[rollIndex + 2];
+        }
+
+        private int GetSparePoints(int rollIndex)
+        {
+            return _rolls[rollIndex] + _rolls[rollIndex + 1] + _rolls[rollIndex + 2];
+        }
+
+        private int GetPoints(int rollIndex)
+        {
+            return _rolls[rollIndex] + _rolls[rollIndex + 1];
         }
     }
 }
