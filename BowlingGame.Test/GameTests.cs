@@ -70,5 +70,17 @@ namespace BowlingGame.Test
 
             Assert.AreEqual(16, _game.Score);
         }
+
+        [TestMethod]
+        public void Get_Three_Hundred_Points_If_All_Striked()
+        {
+            // X X X X X X X X X X X X
+            for (int i = 0; i <= 11; i++)
+            {
+                _game.Roll(10);
+            }
+
+            Assert.AreEqual(300, _game.Score);
+        }
     }
 }
