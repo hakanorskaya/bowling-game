@@ -95,5 +95,17 @@ namespace BowlingGame.Test
 
             Assert.AreEqual(90, _game.Score);
         }
+
+        [TestMethod]
+        public void Get_Hundred_And_Fifty_Points_If_All_Fives_Rolled()
+        {
+            // 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/5
+            for (int i = 0; i <= 20; i++)
+            {
+                _game.Roll(5);
+            }
+
+            Assert.AreEqual(150, _game.Score);
+        }
     }
 }
