@@ -1,5 +1,10 @@
 ﻿namespace BowlingGame
 {
+    /*
+     * TODO: Since intermediate scores for frames is not neccessary, I did not abstract away frame as a class.
+     * But once Frame class is added, methods like IsStrike, IsSpare, GetStrikePoints, etc... must be moved there.
+     */
+
     public class Game
     {
         private readonly int[] _rolls = new int[21]; // Maximum possible roll count is 21

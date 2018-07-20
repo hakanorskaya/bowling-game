@@ -16,80 +16,79 @@ namespace BowlingGame.Test
         [TestMethod]
         public void Get_Zero_Points_If_All_Zeroes_Rolled()
         {
-            // -- -- -- -- -- -- -- -- -- --
-            RollMany(20, 0);
-
+            Roll("-- -- -- -- -- -- -- -- -- --");
             Assert.AreEqual(0, _game.Score);
         }
 
         [TestMethod]
         public void Get_Twenty_Points_If_All_Ones_Rolled()
         {
-            // 11 11 11 11 11 11 11 11 11 11
-            RollMany(20, 1);
-
+            Roll("11 11 11 11 11 11 11 11 11 11");
             Assert.AreEqual(20, _game.Score);
         }
 
         [TestMethod]
         public void Get_Twenty_Points_If_Spared_Once_Then_Five_And_Then_All_Zeroes_Rolled()
         {
-            // 5/ 5- -- -- -- -- -- -- -- --
-            RollMany(3, 5);
-            RollMany(17, 0);
-
+            Roll("5/ 5- -- -- -- -- -- -- -- --");
             Assert.AreEqual(20, _game.Score);
         }
 
         [TestMethod]
         public void Get_Sixteen_Points_If_Striked_Once_Then_One_And_Two_And_Then_All_Zeroes_Rolled()
         {
-            // X 12 -- -- -- -- -- -- -- --
-            _game.Roll(10);
-            _game.Roll(1);
-            _game.Roll(2);
-
-            RollMany(16, 0);
-
+            Roll("X 12 -- -- -- -- -- -- -- --");
             Assert.AreEqual(16, _game.Score);
         }
 
         [TestMethod]
         public void Get_Three_Hundred_Points_If_All_Striked()
         {
-            // X X X X X X X X X X X X
-            RollMany(12, 10);
-
+            Roll("X X X X X X X X X X X X");
             Assert.AreEqual(300, _game.Score);
         }
 
         [TestMethod]
         public void Get_Ninety_Points_If_All_Frames_Are_Nines_And_Misses()
         {
-            // 9- 9- 9- 9- 9- 9- 9- 9- 9- 9-
-            for (int i = 0; i <= 9; i++)
-            {
-                _game.Roll(9);
-                _game.Roll(0);
-            }
-
+            Roll("9- 9- 9- 9- 9- 9- 9- 9- 9- 9-");
             Assert.AreEqual(90, _game.Score);
         }
 
         [TestMethod]
         public void Get_Hundred_And_Fifty_Points_If_All_Fives_Rolled()
         {
-            // 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/5
-            RollMany(21, 5);
-
+            Roll("5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/5");
             Assert.AreEqual(150, _game.Score);
         }
 
-        private void RollMany(int times, int pins)
+        // TODO: All inputs must be sanitized before using. Because there is no error checking.
+        private void Roll(string rolls)
         {
-            for (var i = 0; i <= times - 1; i++)
+            rolls = string.Join("", rolls.Split()); // remove whitespaces
+
+            for (var i = 0; i <= rolls.Length - 1; i++)
             {
-                _game.Roll(pins);
+                var roll = rolls[i];
+
+                switch (roll)
+                {
+                    case '-':
+                        _game.Roll(0);
+                        break;
+
+                    case 'X':
+                        _game.Roll(10);
+                        break;
+
+                    case '/':
+                        _game.Roll(10 - int.Parse(rolls[i - 1].ToString()));
+                        break;
+
+                    default:
+                        _game.Roll(int.Parse(roll.ToString()));
+                        break;
+                }
             }
         }
     }
