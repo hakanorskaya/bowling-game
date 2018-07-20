@@ -6,8 +6,9 @@ namespace BowlingGame.Test
     public class GameTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void CreatesGame()
         {
+            var game = new Game();
         }
     }
 }
