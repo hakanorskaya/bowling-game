@@ -13,16 +13,21 @@
                 var rollIndex = 0;
                 for (int frame = 0; frame <= 9; frame++) // 10 frames
                 {
-                    if (_rolls[rollIndex] + _rolls[rollIndex + 1] == 10) // if spare
+                    if (_rolls[rollIndex] == 10) // if strike
                     {
                         totalScore += _rolls[rollIndex] + _rolls[rollIndex + 1] + _rolls[rollIndex + 2];
+                        rollIndex++;
+                    }
+                    else if (_rolls[rollIndex] + _rolls[rollIndex + 1] == 10) // if spare
+                    {
+                        totalScore += _rolls[rollIndex] + _rolls[rollIndex + 1] + _rolls[rollIndex + 2];
+                        rollIndex += 2;
                     }
                     else
                     {
                         totalScore += _rolls[rollIndex] + _rolls[rollIndex + 1];
+                        rollIndex += 2;
                     }
-
-                    rollIndex += 2;
                 }
 
                 return totalScore;
