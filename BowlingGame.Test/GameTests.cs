@@ -17,10 +17,7 @@ namespace BowlingGame.Test
         public void Get_Zero_Points_If_All_Zeroes_Rolled()
         {
             // -- -- -- -- -- -- -- -- -- --
-            for (int i = 0; i <= 19; i++)
-            {
-                _game.Roll(0);
-            }
+            RollMany(20, 0);
 
             Assert.AreEqual(0, _game.Score);
         }
@@ -29,10 +26,7 @@ namespace BowlingGame.Test
         public void Get_Twenty_Points_If_All_Ones_Rolled()
         {
             // 11 11 11 11 11 11 11 11 11 11
-            for (int i = 0; i <= 19; i++)
-            {
-                _game.Roll(1);
-            }
+            RollMany(20, 1);
 
             Assert.AreEqual(20, _game.Score);
         }
@@ -41,15 +35,8 @@ namespace BowlingGame.Test
         public void Get_Twenty_Points_If_Spared_Once_Then_Five_And_Then_All_Zeroes_Rolled()
         {
             // 5/ 5- -- -- -- -- -- -- -- --
-            _game.Roll(5);
-            _game.Roll(5);
-            _game.Roll(5);
-
-            // Roll zero, 17 times.
-            for (int i = 0; i <= 16; i++)
-            {
-                _game.Roll(0);
-            }
+            RollMany(3, 5);
+            RollMany(17, 0);
 
             Assert.AreEqual(20, _game.Score);
         }
@@ -62,11 +49,7 @@ namespace BowlingGame.Test
             _game.Roll(1);
             _game.Roll(2);
 
-            // Roll zero, 16 times.
-            for (int i = 0; i <= 15; i++)
-            {
-                _game.Roll(0);
-            }
+            RollMany(16, 0);
 
             Assert.AreEqual(16, _game.Score);
         }
@@ -75,10 +58,7 @@ namespace BowlingGame.Test
         public void Get_Three_Hundred_Points_If_All_Striked()
         {
             // X X X X X X X X X X X X
-            for (int i = 0; i <= 11; i++)
-            {
-                _game.Roll(10);
-            }
+            RollMany(12, 10);
 
             Assert.AreEqual(300, _game.Score);
         }
@@ -100,12 +80,17 @@ namespace BowlingGame.Test
         public void Get_Hundred_And_Fifty_Points_If_All_Fives_Rolled()
         {
             // 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/5
-            for (int i = 0; i <= 20; i++)
-            {
-                _game.Roll(5);
-            }
+            RollMany(21, 5);
 
             Assert.AreEqual(150, _game.Score);
+        }
+
+        private void RollMany(int times, int pins)
+        {
+            for (var i = 0; i <= times - 1; i++)
+            {
+                _game.Roll(pins);
+            }
         }
     }
 }
