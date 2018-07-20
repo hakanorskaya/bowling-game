@@ -10,24 +10,24 @@
             get
             {
                 var totalScore = 0;
-                var rollIndex = 0;
+                var roll = 0;
 
                 for (var frame = 0; frame <= 9; frame++) // 10 frames
                 {
-                    if (IsStrike(rollIndex))
+                    if (IsStrike(roll))
                     {
-                        totalScore += GetStrikePoints(rollIndex);
-                        rollIndex++;
+                        totalScore += GetStrikePoints(roll);
+                        roll++; // if strike then next frame starts immediately with the next roll.
                     }
-                    else if (IsSpare(rollIndex))
+                    else if (IsSpare(roll))
                     {
-                        totalScore += GetSparePoints(rollIndex);
-                        rollIndex += 2;
+                        totalScore += GetSparePoints(roll);
+                        roll += 2; // next frame starts two rolls further from current roll index.
                     }
                     else
                     {
-                        totalScore += GetPoints(rollIndex);
-                        rollIndex += 2;
+                        totalScore += GetPoints(roll);
+                        roll += 2; // next frame starts two rolls further from current roll index.
                     }
                 }
 
@@ -40,29 +40,32 @@
             _rolls[_currentRollIndex++] = pins;
         }
 
-        private bool IsStrike(int rollIndex)
+        private bool IsStrike(int roll)
         {
-            return _rolls[rollIndex] == 10;
+            return _rolls[roll] == 10;
         }
 
-        private bool IsSpare(int rollIndex)
+        private bool IsSpare(int roll)
         {
-            return _rolls[rollIndex] + _rolls[rollIndex + 1] == 10;
+            return _rolls[roll] + _rolls[roll + 1] == 10;
         }
 
-        private int GetStrikePoints(int rollIndex)
+        private int GetStrikePoints(int roll)
         {
-            return _rolls[rollIndex] + _rolls[rollIndex + 1] + _rolls[rollIndex + 2];
+            // (10 points from strike) + next two rolls.
+            return 10 + _rolls[roll + 1] + _rolls[roll + 2];
         }
 
-        private int GetSparePoints(int rollIndex)
+        private int GetSparePoints(int roll)
         {
-            return _rolls[rollIndex] + _rolls[rollIndex + 1] + _rolls[rollIndex + 2];
+            // (10 points from spare) + next frame's first roll.
+            return 10 + _rolls[roll + 2];
         }
 
-        private int GetPoints(int rollIndex)
+        private int GetPoints(int roll)
         {
-            return _rolls[rollIndex] + _rolls[rollIndex + 1];
+            // if neither strike nor spare then simply take sum of two rolls.
+            return _rolls[roll] + _rolls[roll + 1];
         }
     }
 }
