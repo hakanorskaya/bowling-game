@@ -5,36 +5,34 @@ namespace BowlingGame.Test
     [TestClass]
     public class GameTests
     {
-        [TestMethod]
-        public void Create_Game()
+        private Game _game;
+
+        [TestInitialize]
+        public void Initialize()
         {
-            var game = new Game();
+            _game = new Game();
         }
 
         [TestMethod]
         public void Get_Zero_Points_If_All_Zeroes_Rolled()
         {
-            var game = new Game();
-
             for (int i = 0; i <= 19; i++)
             {
-                game.Roll(0);
+                _game.Roll(0);
             }
 
-            Assert.AreEqual(0, game.Score);
+            Assert.AreEqual(0, _game.Score);
         }
 
         [TestMethod]
         public void Get_Twenty_Points_If_All_Ones_Rolled()
         {
-            var game = new Game();
-
             for (int i = 0; i <= 19; i++)
             {
-                game.Roll(1);
+                _game.Roll(1);
             }
 
-            Assert.AreEqual(20, game.Score);
+            Assert.AreEqual(20, _game.Score);
         }
     }
 }
