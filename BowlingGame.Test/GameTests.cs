@@ -82,5 +82,18 @@ namespace BowlingGame.Test
 
             Assert.AreEqual(300, _game.Score);
         }
+
+        [TestMethod]
+        public void Get_Ninety_Points_If_All_Frames_Are_Nines_And_Misses()
+        {
+            // 9- 9- 9- 9- 9- 9- 9- 9- 9- 9-
+            for (int i = 0; i <= 9; i++)
+            {
+                _game.Roll(9);
+                _game.Roll(0);
+            }
+
+            Assert.AreEqual(90, _game.Score);
+        }
     }
 }
